@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { randomUUID } from "crypto";
 import { type FeedbackTheme, type AnalysisResults } from "@shared/schema";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
@@ -54,7 +55,15 @@ Respond with JSON in this exact format:
     const processingTime = (Date.now() - startTime) / 1000;
 
     // Validate and format the response
-    const themes: FeedbackTheme[] = result.themes || [];
+    const themes: FeedbackTheme[] = (result.themes || []).map((theme: any) => ({
+      id: randomUUID(),
+      name: theme.name,
+      summary: theme.summary,
+      percentage: theme.percentage,
+      quotes: theme.quotes || [],
+      suggestedAction: theme.suggestedAction,
+      isEdited: false,
+    }));
     
     // Ensure percentages add up reasonably and quotes are from actual feedback
     themes.forEach(theme => {

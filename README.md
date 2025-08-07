@@ -2,7 +2,8 @@
 
 **AI-Powered Churn Feedback Analyzer for SaaS Teams**
 
-![DropOffLens Homepage Demo](./dropofflens_homepage.png)
+![DropOffLens Homepage Demo](./docs/dropofflens_homepage.png)
+
 
 ---
 
@@ -52,11 +53,11 @@ SaaS startups lose users every day—but rarely know *why*. Exit feedback is sca
    `git clone https://github.com/abhishekk2305/DropOffLens.git`  
 2. Install root packages  
    ```bash
-cd DropOffLens
+   cd DropOffLens
    npm instal
 3. Set your OpenAI API key in .env (create .env file with OPENAI_KEY=your_key)
 4. Start the app
-  npm run dev
+   npm run dev
 5. Open http://localhost:3000 in your browser
 
 ---

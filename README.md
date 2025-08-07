@@ -1,3 +1,10 @@
+![Replit badge](https://img.shields.io/badge/Built%20with-Replit-blue?logo=replit)
+![OpenAI badge](https://img.shields.io/badge/AI-GPT--4-green?logo=openai)
+![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?logo=typescript)
+![MIT License](https://img.shields.io/badge/License-MIT-brightgreen)
+[![Live Demo](https://img.shields.io/badge/Demo-LIVE-blue)](https://churn-lens-abhishekdhama18.replit.app/)
+
+
 # DropOffLens
 
 **AI-Powered Churn Feedback Analyzer for SaaS Teams**

@@ -208,6 +208,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PDF Export route
+  app.get("/api/analysis/:id/export", isAuthenticated, async (req: any, res) => {
+    try {
+      const analysisId = req.params.id;
+      const userId = req.user?.claims?.sub;
+      
+      const analysis = await storage.getFeedbackAnalysis(analysisId);
+      if (!analysis) {
+        return res.status(404).json({ error: "Analysis not found" });
+      }
+      
+      // Check if user owns this analysis or has access via team
+      if (analysis.userId !== userId) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      
+      if (!analysis.analysisResults) {
+        return res.status(400).json({ error: "Analysis not completed yet" });
+      }
+      
+      const pdfBuffer = await generatePDFReport(analysis.analysisResults as any);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="dropofflens-analysis-${analysisId}.pdf"`);
+      res.setHeader('Content-Length', pdfBuffer.length);
+      
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error('PDF export error:', error);
+      res.status(500).json({ 
+        error: error instanceof Error ? error.message : "Failed to generate PDF" 
+      });
+    }
+  });
+
   // Team management routes
   app.post("/api/teams", isAuthenticated, async (req: any, res) => {
     try {

@@ -28,26 +28,26 @@ export function AnalysisResultsComponent({ results, analysisId, isLoading }: Ana
 
     setIsExporting(true);
     try {
-      const response = await fetch(`/api/analysis/${analysisId}/pdf`);
+      const response = await fetch(`/api/analysis/${analysisId}/export`);
       
       if (!response.ok) {
-        throw new Error('Export failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Export failed');
       }
 
-      const htmlContent = await response.text();
-      const blob = new Blob([htmlContent], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
+      const pdfBlob = await response.blob();
+      const url = URL.createObjectURL(pdfBlob);
       
       const a = document.createElement('a');
       a.href = url;
-      a.download = `dropofflens-analysis-${analysisId}.html`;
+      a.download = `dropofflens-analysis-${analysisId}.pdf`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
       toast({
-        title: "Export successful",
+        title: "PDF export successful",
         description: "Analysis report downloaded successfully",
       });
     } catch (error) {
